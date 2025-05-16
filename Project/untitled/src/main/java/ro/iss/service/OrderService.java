@@ -1,6 +1,7 @@
 package ro.iss.service;
 
 import ro.iss.domain.Order;
+import ro.iss.domain.OrderStatus;
 import ro.iss.domain.User;
 import ro.iss.repository.OrderRepository;
 
@@ -12,7 +13,7 @@ public class OrderService {
     public void placeOrder(int quantity, User user) {
         Order order = new Order();
         order.setQuantity(quantity);
-        order.setStatus("PENDING");
+        order.setStatus(OrderStatus.PENDING);
         order.setUser(user);
 
         orderRepository.save(order);
@@ -23,7 +24,7 @@ public class OrderService {
     }
 
     public void honorOrder(Order order) {
-        order.setStatus("HONORED");
+        order.setStatus(OrderStatus.HONORED);
         orderRepository.update(order);
     }
 

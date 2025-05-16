@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.GridPane?>
 
 <BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-            fx:controller="ro.iss.controller.SectionViewController" style="-fx-background-color: #e6f0e6;">
+            fx:controller="ro.iss.controller.HospitalStaffController" style="-fx-background-color: #e6f0e6;">
 
     <left>
         <VBox spacing="10" alignment="TOP_LEFT" style="-fx-padding: 20;">

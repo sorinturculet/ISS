@@ -1,12 +1,12 @@
 package ro.iss.service;
 
 import ro.iss.domain.User;
-import ro.iss.repository.UserRepository;
+import ro.iss.repository.LoginRepository;
 
 import java.util.List;
 
-public class UserService {
-    private final UserRepository userRepository = new UserRepository();
+public class LoginService {
+    private final LoginRepository loginRepository = new LoginRepository();
 
     public void registerUser(String username, String password, String type) {
         User user = new User();
@@ -14,12 +14,12 @@ public class UserService {
         user.setPassword(password);
         user.setType(type);
 
-        userRepository.save(user);
+        loginRepository.save(user);
     }
 
     public User login(String username, String password) {
         System.out.println("Attempting login with username: [" + username + "] and password: [" + password + "]");
-        List<User> users = userRepository.findAll();
+        List<User> users = loginRepository.findAll();
         System.out.println("Found " + users.size() + " users in the database.");
         
         for (User u : users) {
@@ -38,6 +38,6 @@ public class UserService {
     }
 
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        return loginRepository.findAll();
     }
 }

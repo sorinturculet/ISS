@@ -7,7 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import ro.iss.domain.Order;
-import ro.iss.domain.OrderItem;
+import ro.iss.domain.OrderStatus;
 import ro.iss.domain.User;
 import ro.iss.service.OrderItemService;
 import ro.iss.service.OrderService;
@@ -52,7 +52,7 @@ public class PharmacyViewController {
         // Set up event handlers
         pendingOrdersListView.getSelectionModel().selectedItemProperty().addListener(
             (obs, oldVal, newVal) -> showPendingOrderDetails(newVal));
-        
+
         completedOrdersListView.getSelectionModel().selectedItemProperty().addListener(
             (obs, oldVal, newVal) -> showCompletedOrderDetails(newVal));
         
@@ -72,7 +72,7 @@ public class PharmacyViewController {
         
         // Load pending orders, sorted by ID (proxy for timestamp) to prioritize by arrival time
         orderService.getAllOrders().stream()
-                .filter(o -> "PENDING".equals(o.getStatus()))
+                .filter(o -> OrderStatus.PENDING.equals(o.getStatus()))
                 .sorted(Comparator.comparing(Order::getId)) // Sort by ID (chronological)
                 .forEach(o -> {
                     String userInfo = "";
@@ -88,7 +88,7 @@ public class PharmacyViewController {
         
         // Load completed orders
         orderService.getAllOrders().stream()
-                .filter(o -> "HONORED".equals(o.getStatus()))
+                .filter(o -> OrderStatus.HONORED.equals(o.getStatus()))
                 .sorted(Comparator.comparing(Order::getId).reversed()) // Newest first
                 .forEach(o -> {
                     String userInfo = "";
@@ -102,7 +102,7 @@ public class PharmacyViewController {
                     completedOrdersDisplayList.add("Order #" + o.getId() + userInfo);
                 });
     }
-    
+
     private void showPendingOrderDetails(String selected) {
         if (selected == null) {
             selectedPendingOrder = null;
@@ -113,34 +113,34 @@ public class PharmacyViewController {
             int orderId = Integer.parseInt(selected.split("#")[1].split(" ")[0]);
             selectedPendingOrder = orderService.getOrderById(orderId);
             
-            displayOrderDetails(selectedPendingOrder, "PENDING");
+            displayOrderDetails(selectedPendingOrder, OrderStatus.PENDING);
         } catch (Exception e) {
             orderDetailsArea.setText("Error loading order details: " + e.getMessage());
         }
     }
-    
+
     private void showCompletedOrderDetails(String selected) {
         if (selected == null) return;
         
         try {
             int orderId = Integer.parseInt(selected.split("#")[1].split(" ")[0]);
             Order order = orderService.getOrderById(orderId);
-            
+
             // Clear any pending order selection
             pendingOrdersListView.getSelectionModel().clearSelection();
             selectedPendingOrder = null;
             
-            displayOrderDetails(order, "HONORED");
+            displayOrderDetails(order, OrderStatus.HONORED);
         } catch (Exception e) {
             orderDetailsArea.setText("Error loading order details: " + e.getMessage());
         }
     }
     
-    private void displayOrderDetails(Order order, String status) {
+    private void displayOrderDetails(Order order, OrderStatus status) {
         if (order == null) return;
         
         orderDetailsArea.clear();
-        orderDetailsArea.appendText("Order #" + order.getId() + " (" + status + ")\n");
+        orderDetailsArea.appendText("Order #" + order.getId() + " (" + order.getStatus() + ")\n");
         
         if (order.getUser() != null) {
             orderDetailsArea.appendText("From: " + order.getUser().getUsername() + "\n");
@@ -170,8 +170,8 @@ public class PharmacyViewController {
             selectedPendingOrder = null;
         } catch (Exception e) {
             orderDetailsArea.appendText("Error honoring order: " + e.getMessage() + "\n");
+            }
         }
-    }
 
     @FXML
     public void handleLogout(ActionEvent event) {

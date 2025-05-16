@@ -9,8 +9,9 @@ public class Order extends Identifiable<Integer> {
     @Column(name = "quantity")
     private int quantity;
     
+    @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private String status;
+    private OrderStatus status;
 
     @ManyToOne
     @JoinColumn(name = "userid", referencedColumnName = "id", insertable = true, updatable = true, nullable = false)
@@ -22,8 +23,18 @@ public class Order extends Identifiable<Integer> {
     public int getQuantity() { return quantity; }
     public void setQuantity(int quantity) { this.quantity = quantity; }
 
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    public OrderStatus getStatus() { return status; }
+    public void setStatus(OrderStatus status) { this.status = status; }
+    
+    // For backward compatibility with code using string status
+    public void setStatus(String statusStr) {
+        try {
+            this.status = OrderStatus.valueOf(statusStr.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            // Default to PENDING if invalid status string
+            this.status = OrderStatus.PENDING;
+        }
+    }
 
     public User getUser() { return user; }
     public void setUser(User user) { 

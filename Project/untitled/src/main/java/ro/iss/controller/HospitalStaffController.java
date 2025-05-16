@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import ro.iss.domain.Drug;
 import ro.iss.domain.Order;
 import ro.iss.domain.OrderItem;
+import ro.iss.domain.OrderStatus;
 import ro.iss.domain.User;
 import ro.iss.service.DrugService;
 import ro.iss.service.OrderItemService;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class SectionViewController {
+public class HospitalStaffController {
 
     @FXML private ComboBox<String> drugComboBox;
     @FXML private TextField quantityField;
@@ -87,7 +88,7 @@ public class SectionViewController {
         loadOrders();
         orderStatusArea.appendText("Orders refreshed.\n");
     }
-    
+
     private void loadOrders() {
         if (currentUser == null) return;
         
@@ -99,15 +100,15 @@ public class SectionViewController {
             .forEach(o -> {
                 String orderInfo = "Order #" + o.getId() + " - " + formatDate(o);
                 
-                if ("PENDING".equals(o.getStatus())) {
+                if (o.getStatus() == OrderStatus.PENDING) {
                     pendingOrdersDisplayList.add(orderInfo);
-                } else if ("HONORED".equals(o.getStatus())) {
+                } else if (o.getStatus() == OrderStatus.HONORED) {
                     completedOrdersDisplayList.add(orderInfo);
                 }
             });
     }
     
-    private void showOrderDetails(String selectedOrder, String status) {
+    private void showOrderDetails(String selectedOrder, String statusStr) {
         if (selectedOrder == null) return;
         
         try {
@@ -116,7 +117,7 @@ public class SectionViewController {
             
             if (order != null) {
                 orderStatusArea.clear();
-                orderStatusArea.appendText("Order #" + orderId + " (" + status + "):\n");
+                orderStatusArea.appendText("Order #" + orderId + " (" + order.getStatus() + "):\n");
                 
                 List<OrderItem> items = orderItemService.getAllOrderItems().stream()
                     .filter(oi -> oi.getOrderid() == orderId)
@@ -155,7 +156,7 @@ public class SectionViewController {
             }
 
             Optional<Drug> drugOpt = drugService.getAllDrugs().stream()
-                    .filter(d -> d.getName().equals(selectedDrugName))
+                        .filter(d -> d.getName().equals(selectedDrugName))
                     .findFirst();
 
             if (drugOpt.isPresent()) {
@@ -194,8 +195,8 @@ public class SectionViewController {
             Order newOrder = new Order();
             int totalQuantity = currentOrderItems.stream().mapToInt(item -> item.quantity).sum();
             newOrder.setQuantity(totalQuantity);
-            newOrder.setStatus("PENDING");
-            newOrder.setUser(currentUser); 
+            newOrder.setStatus(OrderStatus.PENDING);
+            newOrder.setUser(currentUser);
             
             orderService.saveOrder(newOrder);
 

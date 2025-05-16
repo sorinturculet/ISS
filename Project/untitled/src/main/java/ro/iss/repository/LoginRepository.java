@@ -6,7 +6,7 @@ import ro.iss.domain.User;
 
 import java.util.List;
 
-public class UserRepository {
+public class LoginRepository {
 
     public void save(User user) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {

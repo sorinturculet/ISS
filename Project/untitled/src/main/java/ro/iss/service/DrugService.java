@@ -8,10 +8,9 @@ import java.util.List;
 public class DrugService {
     private final DrugRepository drugRepository = new DrugRepository();
 
-    public void addDrug(String name, double price, String description) {
+    public void addDrug(String name, String description) {
         Drug drug = new Drug();
         drug.setName(name);
-        drug.setPrice(price);
         drug.setDescription(description);
 
         drugRepository.save(drug);

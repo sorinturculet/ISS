@@ -7,7 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import ro.iss.domain.User;
-import ro.iss.service.UserService;
+import ro.iss.service.LoginService;
 
 public class LoginViewController {
 
@@ -16,7 +16,7 @@ public class LoginViewController {
     @FXML private Button loginButton;
     @FXML private Label statusLabel;
 
-    private final UserService userService = new UserService();
+    private final LoginService loginService = new LoginService();
 
     @FXML
     public void initialize() {
@@ -27,7 +27,7 @@ public class LoginViewController {
 
         System.out.println(usernameField.getText());
         System.out.println(passwordField.getText());
-        User user = userService.login(usernameField.getText(), passwordField.getText());
+        User user = loginService.login(usernameField.getText(), passwordField.getText());
         System.out.println(user);
         if (user != null) {
             loadUserView(user);
@@ -57,7 +57,7 @@ public class LoginViewController {
             stage.show();
 
             if ("SECTION".equalsIgnoreCase(user.getType())) {
-                SectionViewController controller = loader.getController();
+                HospitalStaffController controller = loader.getController();
                 controller.setCurrentUser(user);
             } else if ("PHARMACIST".equalsIgnoreCase(user.getType())) {
                 PharmacyViewController controller = loader.getController();
