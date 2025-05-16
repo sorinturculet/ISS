@@ -1,0 +1,38 @@
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="ro.iss.controller.PharmacyViewController" style="-fx-background-color: #e6f0e6;">
+
+    <left>
+        <VBox spacing="10" alignment="TOP_LEFT" style="-fx-padding: 20;">
+            <Label text="Pharmacy" style="-fx-font-size: 18px; -fx-text-fill: #2d5d34;"/>
+            <Button fx:id="refreshButton" text="Refresh Orders" onAction="#handleRefreshOrders"/>
+            <Button fx:id="logoutButton" text="Log Out" onAction="#handleLogout"/>
+        </VBox>
+    </left>
+
+    <center>
+        <VBox spacing="10" alignment="TOP_CENTER" style="-fx-padding: 20;">
+            <Label text="Pending Orders" style="-fx-font-size: 16px;"/>
+            <ListView fx:id="pendingOrdersListView" prefWidth="300" prefHeight="200"/>
+            <Button fx:id="honorButton" text="Honor Selected Order" onAction="#honorSelectedOrder"/>
+            
+            <Label text="Fulfilled Orders" style="-fx-font-size: 16px; -fx-padding: 10 0 0 0;"/>
+            <ListView fx:id="completedOrdersListView" prefWidth="300" prefHeight="150"/>
+        </VBox>
+    </center>
+
+    <right>
+        <VBox spacing="10" alignment="TOP_CENTER" style="-fx-padding: 20;">
+            <Label text="Order Details" style="-fx-font-size: 16px;"/>
+            <TextArea fx:id="orderDetailsArea" prefWidth="250" prefHeight="300" editable="false" wrapText="true"/>
+        </VBox>
+    </right>
+</BorderPane>

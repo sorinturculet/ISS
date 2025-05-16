@@ -1,0 +1,23 @@
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+
+        <!-- SQLite Database connection -->
+        <property name="hibernate.connection.driver_class">org.sqlite.JDBC</property>
+        <property name="hibernate.connection.url">jdbc:sqlite:pharmacy</property>
+        <property name="hibernate.dialect">org.hibernate.community.dialect.SQLiteDialect</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
+        <property name="hibernate.show_sql">true</property>
+        
+        <!-- Enable quoting for reserved keywords -->
+        <property name="hibernate.globally_quoted_identifiers">true</property>
+
+        <!-- Entities -->
+        <mapping class="ro.iss.domain.User"/>
+        <mapping class="ro.iss.domain.Drug"/>
+        <mapping class="ro.iss.domain.Order"/>
+        <mapping class="ro.iss.domain.OrderItem"/>
+
+    </session-factory>
+</hibernate-configuration>

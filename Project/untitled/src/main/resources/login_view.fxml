@@ -1,0 +1,22 @@
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Button?>
+<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="ro.iss.controller.LoginViewController" style="-fx-background-color: #e6f0e6;">
+    <children>
+        <Label layoutX="270" layoutY="80" text="Pharmacy" style="-fx-font-size: 24px; -fx-text-fill: #2d5d34;"/>
+
+        <Label layoutX="200" layoutY="160" text="Username" />
+        <TextField fx:id="usernameField" layoutX="270" layoutY="155" prefWidth="200"/>
+
+        <Label layoutX="200" layoutY="200" text="Password" />
+        <PasswordField fx:id="passwordField" layoutX="270" layoutY="195" prefWidth="200"/>
+
+        <Button fx:id="loginButton" text="Sign In" layoutX="270" layoutY="240" prefWidth="200"
+                style="-fx-background-color: #333333; -fx-text-fill: white;"/>
+
+        <Label fx:id="statusLabel" layoutX="270" layoutY="280" style="-fx-text-fill: red;"/>
+    </children>
+</AnchorPane>
